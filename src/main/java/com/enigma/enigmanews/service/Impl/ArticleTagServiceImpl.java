@@ -38,7 +38,15 @@ public class ArticleTagServiceImpl implements ArticleTagService {
 
     @Override
     public void update(ArticleTagRequest request, String articleId) {
-                 delete(articleId);
+        delete(articleId);
+
+        for (Tag tag : request.getTags()) {
+            ArticleTag buildArticleTag = ArticleTag.builder()
+                    .article(request.getArticle())
+                    .tag(tag)
+                    .build();
+            articleTagRepository.save(buildArticleTag);
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)

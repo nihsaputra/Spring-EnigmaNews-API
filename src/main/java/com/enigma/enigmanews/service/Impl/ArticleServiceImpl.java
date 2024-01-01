@@ -74,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleResponse update(ArticleRequest request, String articleId) {
         Optional<Article> optionalArticle = articleRepository.findById(articleId);
-        if (!optionalArticle.isPresent()) throw new  ResponseStatusException(HttpStatus.FORBIDDEN,"forbiden");
+        if (!optionalArticle.isPresent()) throw new  ResponseStatusException(HttpStatus.NOT_FOUND,"not found");
 
 
         // TRANSACTIONAL ARTICLE
@@ -84,7 +84,6 @@ public class ArticleServiceImpl implements ArticleService {
                 .content(request.getContent())
                 .title(request.getTitle())
                 .build();
-
         Article article = articleRepository.saveAndFlush(buildArticle);
 
 
@@ -106,7 +105,8 @@ public class ArticleServiceImpl implements ArticleService {
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
-                .title(request.getTitle())
+                .author(article.getAuthor().getName())
+                .tags(request.getTags())
                 .build();
     }
 

@@ -44,4 +44,18 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> update(@RequestBody ArticleRequest request,
+                                     @PathVariable String id){
+
+        ArticleResponse updateResponse = articleService.update(request, id);
+
+        WebResponse<ArticleResponse> response = WebResponse.<ArticleResponse>builder()
+                .status(HttpStatus.OK.getReasonPhrase())
+                .message("successfuly update article")
+                .data(updateResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
 }

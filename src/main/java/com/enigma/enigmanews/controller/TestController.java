@@ -24,56 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/test")
 public class TestController {
+
     private final AuthorService authorService;
     private final TagService tagService;
     private final ArticleService articleService;
-    private final ArticleTagService articleTagService;
-
-    @PostMapping
-    public List<Tag> create(@RequestBody TagRequest request){
-        return tagService.createOrUpdate(request);
-    }
-
-    @GetMapping
-    public List<?> getListArticle(@RequestParam(required = false) String author,
-                                @RequestParam(required = false) String tag){
-        SearchArticleRequest articleRequest = SearchArticleRequest.builder()
-                .author(author)
-                .Tags(tag)
-                .build();
-
-        return articleTagService.getAll(articleRequest);
-    }
-
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<?> update(@RequestBody ArticleRequest request, @PathVariable String id){
-
-        ArticleResponse updateResponse = articleService.update(request, id);
-
-        WebResponse<ArticleResponse> response = WebResponse.<ArticleResponse>builder()
-                .status(HttpStatus.OK.getReasonPhrase())
-                .message("successfuly update article")
-                .data(updateResponse)
-                .build();
-        return ResponseEntity.ok(response);
-    }
-
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id){
-
-        String delete = articleService.delete(id);
-
-        WebResponse<String> response = WebResponse.<String>builder()
-                .status(HttpStatus.OK.getReasonPhrase())
-                .message("successfuly delete article")
-                .data(delete)
-                .build();
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping(path = "/{id}")
-    public List<?> getByArticleId(@PathVariable String id){
-         return articleTagService.getByArticleId(id);
-    }
 
 }
