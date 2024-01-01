@@ -1,12 +1,12 @@
 package com.enigma.enigmanews.repository;
 
-import com.enigma.enigmanews.entity.Author;
+import com.enigma.enigmanews.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface AuthorRepository extends JpaRepository<Author, String> {
-    Optional<Author> findByUserCredential_Id(String id);
+public interface TagRepository extends JpaRepository<Tag, String> {
+    Optional<Tag> findByName(String name);
 }

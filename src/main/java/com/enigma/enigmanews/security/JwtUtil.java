@@ -46,7 +46,7 @@ public class JwtUtil {
 
         }catch (JWTCreationException e){
             log.error("invalid generate token: {}",e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -78,7 +78,7 @@ public class JwtUtil {
                     .roles(roles)
                     .build();
         }catch (JWTVerificationException e){
-            log.error("invalid verification JWT: {}", e.getMessage());
+            log.error("invalid get userInfo verification JWT: {}", e.getMessage());
             return null;
         }
     }

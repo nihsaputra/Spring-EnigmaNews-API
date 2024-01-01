@@ -1,6 +1,7 @@
 package com.enigma.enigmanews.security;
 
 
+import com.enigma.enigmanews.entity.UserCredential;
 import com.enigma.enigmanews.model.JwtClaim;
 import com.enigma.enigmanews.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -33,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = parseJWT(request);
 
             if (token != null && jwtUtil.VeriFyJwtToken(token)){
+
                 JwtClaim userInfoByToken = jwtUtil.getUserInfoByToken(token);
 
                 UserDetails userDetails = userService.loadUserById(userInfoByToken.getUserId());
@@ -54,10 +56,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 
-    private static String parseJWT(HttpServletRequest request) {
+    private String parseJWT(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")){
-            token.substring(7);
+            return token.substring(7);
         }
         return null;
     }
