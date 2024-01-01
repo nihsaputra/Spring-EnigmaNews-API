@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,6 +117,23 @@ public class ArticleServiceImpl implements ArticleService {
         articleTagService.delete(articleId);
         articleRepository.deleteById(articleId);
         return "OK";
+    }
+
+    @Override
+    public List<ArticleListResponse> getListArticle(SearchArticleRequest request) {
+        List<Article> findAll = articleRepository.findAll();
+
+        List<ArticleListResponse> articleListResponses= new ArrayList<>();
+        for (Article article : findAll) {
+            ArticleListResponse buildArticle = ArticleListResponse.builder()
+                    .id(article.getId())
+                    .author(article.getAuthor().getName())
+                    .title(article.getTitle())
+                    .build();
+            articleListResponses.add(buildArticle);
+
+        }
+        return articleListResponses;
     }
 
 }
